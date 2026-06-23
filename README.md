@@ -1,3 +1,15 @@
+---
+title: Prognostic Fleet Maintenance
+emoji: ✈️
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.58.0
+app_file: app/streamlit_app.py
+pinned: false
+python_version: "3.12"
+---
+
 # ✈️ Prognostic Fleet Maintenance — Predicting Remaining Useful Life with Cost-Aware Modeling
 
 Predicting the **Remaining Useful Life (RUL)** of turbofan engines from sensor
