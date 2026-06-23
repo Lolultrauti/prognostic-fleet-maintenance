@@ -22,6 +22,9 @@ venv/
 *.pth
 *.pkl
 *.joblib
+# ...but DO commit the small tuned XGBoost model so the deployed Streamlit
+# app can load it without retraining on the cloud.
+!models/xgb_baseline.joblib
 
 # --- Plots are kept for the README; ignore stray notebook exports ---
 # (key PNGs in notebooks/ or a reports/ dir are committed explicitly)

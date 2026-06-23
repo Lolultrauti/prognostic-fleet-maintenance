@@ -2,7 +2,7 @@
 name = "predictive-maintenance"
 version = "0.1.0"
 description = "Prognostic Fleet Maintenance: Predicting Remaining Useful Life (RUL) with cost-aware modeling on the NASA C-MAPSS turbofan dataset."
-authors = [{ name = "Your Name" }]
+authors = [{ name = "Lolultrauti" }]
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
 

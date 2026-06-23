@@ -1,0 +1,17 @@
+# Slim runtime deps for the deployed Streamlit Cloud app.
+# Intentionally EXCLUDES torch/jupyterlab/seaborn — the web app does not use the
+# CNN-LSTM or notebooks, and torch would bloat the cloud build. Local development
+# uses pyproject.toml (full stack) via Poetry instead.
+#
+# Critical versions are pinned to match what the bundled xgb_baseline.joblib was
+# trained with, so the model unpickles cleanly on the cloud.
+streamlit==1.58.0
+pandas==2.3.3
+numpy==1.26.4
+scipy==1.17.1
+scikit-learn==1.9.0
+xgboost==2.1.4
+shap==0.49.1
+plotly==5.24.1
+matplotlib==3.11.0
+joblib==1.5.3
