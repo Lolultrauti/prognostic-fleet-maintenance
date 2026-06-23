@@ -44,8 +44,14 @@ from targets import add_test_rul, prepare_train_targets
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 
-# Columns that are never model inputs (ids and the prediction target).
-NON_FEATURE_COLS = {"unit_number", "time_cycles", "RUL"}
+# Columns that are never model inputs: ids, the prediction target, and
+# normalized_life_position (leaky — see add_normalized_life_position).
+NON_FEATURE_COLS = {
+    "unit_number",
+    "time_cycles",
+    "RUL",
+    "normalized_life_position",
+}
 
 
 # --------------------------------------------------------------------------- #
@@ -148,18 +154,17 @@ def add_derivative_features(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
 def add_normalized_life_position(df: pd.DataFrame) -> pd.DataFrame:
     """Add ``normalized_life_position`` = current_cycle / max_cycle_for_engine.
 
-    Gives the model an explicit sense of "how far through its life" the engine
-    is, on a 0..1 scale.
+    Gives a 0..1 sense of "how far through its life" the engine is. Handy for
+    PLOTS and the Streamlit demo.
 
-    NOTE on TRAIN vs TEST:
-      * TRAIN engines run to failure, so max_cycle = the failure cycle and this
-        is the true fraction of life elapsed.
-      * TEST engines are truncated before failure, so max_cycle is only the last
-        *observed* cycle — the denominator is smaller than the true lifetime and
-        the value is therefore an over-estimate of true life fraction. This is a
-        known, accepted approximation (we cannot know the true lifetime of a
-        still-running engine); it is consistent within each test engine and the
-        model treats it as just another monotone-increasing feature.
+    *** LEAKY — DO NOT FEED TO THE MODEL (excluded in build_features). ***
+    On TRAIN, max_cycle = the engine's FAILURE cycle, i.e. future information you
+    do not have at inference time for a still-running engine. Worse, on the
+    truncated TEST set every engine's last observed cycle gives exactly 1.0, so a
+    model that learned "life_position≈1 -> RUL≈0" predicts imminent failure for
+    EVERY test engine (we caught this as test RMSE ~73 collapsing to ~16 once the
+    feature was dropped). We keep the column for visualisation but never train on
+    it. Classic target-leakage cautionary tale.
     """
     out = df.copy()
     max_cycle = out.groupby("unit_number")["time_cycles"].transform("max")
