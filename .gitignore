@@ -1,0 +1,33 @@
+# --- Data ---
+# Raw NASA C-MAPSS files are downloaded by src/data.py; don't commit large binaries.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# --- Virtual envs / Poetry ---
+.venv/
+env/
+venv/
+
+# --- Models / artifacts ---
+*.pt
+*.pth
+*.pkl
+*.joblib
+
+# --- Plots are kept for the README; ignore stray notebook exports ---
+# (key PNGs in notebooks/ or a reports/ dir are committed explicitly)
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

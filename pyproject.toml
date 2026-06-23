@@ -1,0 +1,40 @@
+[project]
+name = "predictive-maintenance"
+version = "0.1.0"
+description = "Prognostic Fleet Maintenance: Predicting Remaining Useful Life (RUL) with cost-aware modeling on the NASA C-MAPSS turbofan dataset."
+authors = [{ name = "Your Name" }]
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+
+# Core runtime dependencies. Versions use caret-style lower bounds so Poetry
+# can resolve compatible patch/minor releases while keeping the build stable.
+dependencies = [
+    "pandas (>=2.2,<3.0)",
+    "numpy (>=1.26,<2.0)",
+    "scipy (>=1.11,<2.0)",
+    "scikit-learn (>=1.4,<2.0)",
+    "xgboost (>=2.0,<3.0)",
+    "torch (>=2.2,<3.0)",
+    "shap (>=0.45,<1.0)",
+    "streamlit (>=1.33,<2.0)",
+    "plotly (>=5.20,<6.0)",
+    "matplotlib (>=3.8,<4.0)",
+    "seaborn (>=0.13,<1.0)",
+    "jupyterlab (>=4.1,<5.0)",
+]
+
+[tool.poetry]
+# Application (not a library): don't try to build/install this project as a wheel.
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1"
+
+# Make the `src/` directory importable in tests without packaging the project.
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["poetry-core>=2.0"]
+build-backend = "poetry.core.masonry.api"
